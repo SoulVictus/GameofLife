@@ -1,0 +1,7 @@
+.board {
+    height: 600px;
+    width: 600px;
+    display: flex;
+    background-color: greenyellow;
+    margin:auto;
+}

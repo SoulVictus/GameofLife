@@ -1,12 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import Square from "./components/Square";
+import SquareBoard from "./components/SquareBoard";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <p>Gra w życie</p>
+      <SquareBoard>
+        <Square />
+        <Square />
+        <Square />
+        <Square />
+        <Square />
+      </SquareBoard>
   </React.StrictMode>,
   document.getElementById('root')
 );

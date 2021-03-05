@@ -1,0 +1,11 @@
+.square {
+    height: 20px;
+    width: 20px;
+    background-color: gray;
+    border: solid 2px;
+}
+
+.square.alive {
+    background-color: white;
+    border-style: black solid 5px
+}
