@@ -1,20 +1,33 @@
-import React, {useState} from "react";
+import React from "react";
 import "./Square.css";
 
-const Square = React.forwardRef((props, ref) => {
-    const [alive, setAlive] = useState(false);
-    const id = props.id;
-    let className = alive ? "square alive" : "square";
+class Square extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            alive: false,
+            status: ""
+        };
+        this.handleClick = this.handleClick.bind(this);
+        this.statusChange = this.statusChange.bind(this);
+    }
 
-    const handleDivClick = () => {
-        setAlive(prevVal => !prevVal);
-        console.log(id);
+    handleClick() {
+        console.log("clicked");
+        this.setState({alive: !this.state.alive});
+    }
+
+    statusChange() {
+        
     }
     
-    return (
-        <div ref={ref} onClick={handleDivClick} className={className}>
-        </div>
-    )
-});
+    render() {
+        let className = this.state.alive ? "square alive" : "square";
+        return (
+            <div onClick={this.handleClick} className={className}>
+            </div>
+        )
+    }
+};
 
 export default Square;

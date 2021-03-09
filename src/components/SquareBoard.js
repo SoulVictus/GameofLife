@@ -15,8 +15,7 @@ const SquareBoard = (props) => {
     const boardCheck = () => {
         for (let i = 0; i < arrayRef.current.length; i++)
         {
-            if (arrayRef.current[i].className == "square alive")
-                arrayRef.current[i].className = "square"
+            // Sprawdzenie rogu
         }
     }
 
