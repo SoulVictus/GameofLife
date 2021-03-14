@@ -7,7 +7,7 @@ import SquareBoard from "./components/SquareBoard";
 ReactDOM.render(
   <React.StrictMode>
       <p>Gra w życie</p>
-      <SquareBoard size={25}/>
+      <SquareBoard size={20}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

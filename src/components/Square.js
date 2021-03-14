@@ -5,20 +5,62 @@ class Square extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            alive: false,
-            status: ""
+            alive: 0,
+            status: 0
         };
+        this.id = props.id;
         this.handleClick = this.handleClick.bind(this);
-        this.statusChange = this.statusChange.bind(this);
+        this.setStatus = this.setStatus.bind(this);
+        this.setAlive = this.setAlive.bind(this);
+        this.update = this.update.bind(this);
     }
+
+    
+    componentDidUpdate() {
+        console.log("rerendered")
+    }
+
 
     handleClick() {
         console.log("clicked");
-        this.setState({alive: !this.state.alive});
+        this.setState((state) => ({
+            alive: !state.alive
+        }));
     }
 
-    statusChange() {
-        
+    getAlive() {
+        return this.state.alive;
+    }
+
+    setAlive(value) {
+        if (value !== this.state.alive) {
+            this.setState({
+                alive: value
+            });
+        }
+    }
+
+    setStatus(status) {
+        if (status !== this.state.status) {
+            this.setState(() => ({
+                status: status
+            }));
+        }
+    }
+
+    getStatus() {
+        return this.state.status;
+    }
+
+    update() {
+            this.setState((state) => {
+                if (state.status !== this.state.alive)
+                {
+                    return {
+                        alive: state.status
+                    }
+                }
+            })
     }
     
     render() {
