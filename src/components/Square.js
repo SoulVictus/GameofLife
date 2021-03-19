@@ -15,20 +15,18 @@ class Square extends React.Component {
         this.update = this.update.bind(this);
     }
 
-    
-    componentDidUpdate() {
+    componentDidMount () {
         console.log("rerendered")
     }
 
 
     handleClick() {
-        console.log("clicked");
         this.setState((state) => ({
             alive: !state.alive
         }));
     }
 
-    getAlive() {
+    isAlive() {
         return this.state.alive;
     }
 

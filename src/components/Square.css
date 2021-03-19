@@ -1,15 +1,11 @@
 .square {
-    height: 20px;
-    width: 20px;
+    height: 10px;
+    width: 10px;
     background-color: gray;
-    border: solid 2px;
+    border: solid 1px;
 }
 
 .square.alive {
     background-color: white;
     border-style: black solid 5px
-}
-
-.square:hover {
-    
 }

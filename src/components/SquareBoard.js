@@ -10,14 +10,15 @@ const SquareBoard = (props) => {
 
     useEffect(() => {
         if (running) {
-            const intervalId = setInterval(gameLoop, 200);
-
-            return () => {
-                clearInterval(intervalId);
-            }
+            var intervalId = setInterval(gameLoop, 200);
+        }
+        return () => {
+            clearInterval(intervalId);
         }
         }
     , [running])
+
+
 
     const sumNeighbour = (i, j) => {
         let ir, il, jr, jl
@@ -27,10 +28,11 @@ const SquareBoard = (props) => {
         if ( j > 0 ) jl = j - 1; else jl = boardSize - 1;
     
         
-        return arrRef.current[ir][j].getAlive() + arrRef.current[il][j].getAlive() + arrRef.current[i][jr].getAlive() + arrRef.current[i][jl].getAlive() 
-            + arrRef.current[ir][jr].getAlive() + arrRef.current[ir][jl].getAlive() + arrRef.current[il][jr].getAlive() + arrRef.current[il][jl].getAlive();
+        return arrRef.current[ir][j].isAlive() + arrRef.current[il][j].isAlive() + arrRef.current[i][jr].isAlive() + arrRef.current[i][jl].isAlive() 
+            + arrRef.current[ir][jr].isAlive() + arrRef.current[ir][jl].isAlive() + arrRef.current[il][jr].isAlive() + arrRef.current[il][jl].isAlive();
         
     }
+
 
     const boardCheck = () => {
         for (let i = 0; i < boardSize; i++)
@@ -40,13 +42,16 @@ const SquareBoard = (props) => {
                 let neightbourAmount = sumNeighbour(i, j);
                 //console.log(`${i} ${j} - ${neightbourAmount}`)
 
-                if (arrRef.current[i][j].getAlive() && (neightbourAmount === 2 || neightbourAmount === 3))
+                if (arrRef.current[i][j].isAlive() && (neightbourAmount === 2 || neightbourAmount === 3)) {
                     arrRef.current[i][j].setStatus(1);
+                }
                 else
-                    if (!arrRef.current[i][j].getAlive() && (neightbourAmount === 3))
+                    if (!arrRef.current[i][j].isAlive() && (neightbourAmount === 3)) {
                         arrRef.current[i][j].setStatus(1);
-                    else
+                    }
+                    else {
                         arrRef.current[i][j].setStatus(0)
+                    }
             }
         }
     }
@@ -62,16 +67,14 @@ const SquareBoard = (props) => {
     }
 
     const boardShuffle = () => {
-        for (let i = 0; i < boardSize; i++)
-        {
-            for (let j = 0; j < boardSize; j++)
-            {
-                if (Math.random() < 0.2)
-                {
+        for (let i = 0; i < boardSize; i++) {
+            for (let j = 0; j < boardSize; j++) {
+                if (Math.random() < 0.2) {
                     arrRef.current[i][j].setAlive(1);
                 }
-                else
+                else {
                     arrRef.current[i][j].setAlive(0);
+                }
             }
         }
     }
