@@ -13,22 +13,22 @@ class Square extends React.Component {
         this.setStatus = this.setStatus.bind(this);
         this.setAlive = this.setAlive.bind(this);
         this.update = this.update.bind(this);
+        this.setAmount = props.setAmount;
     }
 
-    
-    componentDidUpdate() {
+    componentDidMount () {
         console.log("rerendered")
     }
 
 
     handleClick() {
-        console.log("clicked");
         this.setState((state) => ({
             alive: !state.alive
         }));
+        this.setAmount(this.state.alive);
     }
 
-    getAlive() {
+    isAlive() {
         return this.state.alive;
     }
 

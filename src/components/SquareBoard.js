@@ -7,17 +7,23 @@ const SquareBoard = (props) => {
     const boardSize = props.size;
     const arrRef = useRef(chunk(new Array(boardSize*boardSize).fill(), boardSize));
     const [running, setRunning] = useState(false);
+    const [livingAmount, setLivingAmount] = useState(0);
+    let amount = 0;
 
     useEffect(() => {
         if (running) {
-            const intervalId = setInterval(gameLoop, 200);
-
-            return () => {
-                clearInterval(intervalId);
-            }
+            var intervalId = setInterval(gameLoop, 200);
+            console.log("interval set");
+        }
+        return () => {
+            clearInterval(intervalId);
         }
         }
     , [running])
+
+    useEffect(() => {
+        console.log("rerendered");
+    })
 
     const sumNeighbour = (i, j) => {
         let ir, il, jr, jl
@@ -27,12 +33,19 @@ const SquareBoard = (props) => {
         if ( j > 0 ) jl = j - 1; else jl = boardSize - 1;
     
         
-        return arrRef.current[ir][j].getAlive() + arrRef.current[il][j].getAlive() + arrRef.current[i][jr].getAlive() + arrRef.current[i][jl].getAlive() 
-            + arrRef.current[ir][jr].getAlive() + arrRef.current[ir][jl].getAlive() + arrRef.current[il][jr].getAlive() + arrRef.current[il][jl].getAlive();
+        return arrRef.current[ir][j].isAlive() + arrRef.current[il][j].isAlive() + arrRef.current[i][jr].isAlive() + arrRef.current[i][jl].isAlive() 
+            + arrRef.current[ir][jr].isAlive() + arrRef.current[ir][jl].isAlive() + arrRef.current[il][jr].isAlive() + arrRef.current[il][jl].isAlive();
         
     }
 
+    const  handleSquareClick = (val) => {
+        val ? amount -= 1 : amount += 1;
+        setLivingAmount(amount);
+    }
+
     const boardCheck = () => {
+        setLivingAmount(0);
+        amount = 0;
         for (let i = 0; i < boardSize; i++)
         {
             for (let j = 0; j < boardSize; j++)
@@ -40,15 +53,21 @@ const SquareBoard = (props) => {
                 let neightbourAmount = sumNeighbour(i, j);
                 //console.log(`${i} ${j} - ${neightbourAmount}`)
 
-                if (arrRef.current[i][j].getAlive() && (neightbourAmount === 2 || neightbourAmount === 3))
+                if (arrRef.current[i][j].isAlive() && (neightbourAmount === 2 || neightbourAmount === 3)) {
                     arrRef.current[i][j].setStatus(1);
+                    amount += 1;
+                }
                 else
-                    if (!arrRef.current[i][j].getAlive() && (neightbourAmount === 3))
+                    if (!arrRef.current[i][j].isAlive() && (neightbourAmount === 3)) {
                         arrRef.current[i][j].setStatus(1);
-                    else
+                        amount += 1;
+                    }
+                    else {
                         arrRef.current[i][j].setStatus(0)
+                    }
             }
         }
+        setLivingAmount(amount);
     }
 
     const statusApply = () => {
@@ -62,18 +81,20 @@ const SquareBoard = (props) => {
     }
 
     const boardShuffle = () => {
-        for (let i = 0; i < boardSize; i++)
-        {
-            for (let j = 0; j < boardSize; j++)
-            {
-                if (Math.random() < 0.2)
-                {
+        setLivingAmount(0);
+        amount = 0;
+        for (let i = 0; i < boardSize; i++) {
+            for (let j = 0; j < boardSize; j++) {
+                if (Math.random() < 0.2) {
+                    amount += 1;
                     arrRef.current[i][j].setAlive(1);
                 }
-                else
+                else {
                     arrRef.current[i][j].setAlive(0);
+                }
             }
         }
+        setLivingAmount(amount);
     }
 
     const gameLoop = () => {
@@ -86,6 +107,7 @@ const SquareBoard = (props) => {
     }
 
     const clearBoard = () => {
+        setLivingAmount(0);
         for (let i = 0; i < boardSize; i++)
         {
             for (let j = 0; j < boardSize; j++)
@@ -106,6 +128,7 @@ const SquareBoard = (props) => {
                                 item.map((col, colIndex) => 
                                     <Square 
                                         ref={el => arrRef.current[index][colIndex] = el} 
+                                        setAmount={handleSquareClick}
                                         id={boardSize*index+colIndex} 
                                         key={boardSize*index+colIndex} 
                                         alive={item}/>)
@@ -114,6 +137,7 @@ const SquareBoard = (props) => {
                     )
                 })
             }
+            <p>{`Living: ${livingAmount}, Dead: ${(boardSize*boardSize) - livingAmount}`}</p>
             <button onClick={boardCheck}>check</button>
             <button onClick={boardShuffle}>shuffle</button>
             <button onClick={statusApply}>update</button>
