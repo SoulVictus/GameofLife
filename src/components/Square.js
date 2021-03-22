@@ -1,20 +1,73 @@
-import React, {useState} from "react";
+import React from "react";
 import "./Square.css";
 
-const Square = React.forwardRef((props, ref) => {
-    const [alive, setAlive] = useState(false);
-    const id = props.id;
-    let className = alive ? "square alive" : "square";
+class Square extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            alive: 0,
+            status: 0
+        };
+        this.id = props.id;
+        this.handleClick = this.handleClick.bind(this);
+        this.setStatus = this.setStatus.bind(this);
+        this.setAlive = this.setAlive.bind(this);
+        this.update = this.update.bind(this);
+    }
 
-    const handleDivClick = () => {
-        setAlive(prevVal => !prevVal);
-        console.log(id);
+    componentDidMount () {
+        console.log("rerendered")
+    }
+
+
+    handleClick() {
+        this.setState((state) => ({
+            alive: !state.alive
+        }));
+    }
+
+    isAlive() {
+        return this.state.alive;
+    }
+
+    setAlive(value) {
+        if (value !== this.state.alive) {
+            this.setState({
+                alive: value
+            });
+        }
+    }
+
+    setStatus(status) {
+        if (status !== this.state.status) {
+            this.setState(() => ({
+                status: status
+            }));
+        }
+    }
+
+    getStatus() {
+        return this.state.status;
+    }
+
+    update() {
+            this.setState((state) => {
+                if (state.status !== this.state.alive)
+                {
+                    return {
+                        alive: state.status
+                    }
+                }
+            })
     }
     
-    return (
-        <div ref={ref} onClick={handleDivClick} className={className}>
-        </div>
-    )
-});
+    render() {
+        let className = this.state.alive ? "square alive" : "square";
+        return (
+            <div onClick={this.handleClick} className={className}>
+            </div>
+        )
+    }
+};
 
 export default Square;

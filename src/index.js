@@ -2,13 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Square from "./components/Square";
 import SquareBoard from "./components/SquareBoard";
 
 ReactDOM.render(
   <React.StrictMode>
       <p>Gra w życie</p>
-      <SquareBoard size={25}/>
+      <SquareBoard size={20}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
