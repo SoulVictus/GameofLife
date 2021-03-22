@@ -9,6 +9,8 @@ const SquareBoard = (props) => {
     const [running, setRunning] = useState(false);
     const [livingAmount, setLivingAmount] = useState(0);
     let amount = 0;
+    const dataArray = new Array();
+
 
     useEffect(() => {
         if (running) {
@@ -20,10 +22,6 @@ const SquareBoard = (props) => {
         }
         }
     , [running])
-
-    useEffect(() => {
-        console.log("rerendered");
-    })
 
     const sumNeighbour = (i, j) => {
         let ir, il, jr, jl
@@ -68,6 +66,7 @@ const SquareBoard = (props) => {
             }
         }
         setLivingAmount(amount);
+        
     }
 
     const statusApply = () => {
